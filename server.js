@@ -21,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 // Route to generate a question based on input text
+
 app.post("/generate-question", async (req, res) => {
   const { text } = req.body;
 
@@ -31,17 +32,17 @@ app.post("/generate-question", async (req, res) => {
   try {
     // OpenAI API call to generate a question
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-3.5-turbo-16k",
       messages: [
         { role: "system", content: "You are a question generator." },
         { role: "user", content: `Generate a question based on: ${text}` },
       ],
       response_format: "text",
-      temperature: 1,
-      max_tokens: 2048,
+      temperature: 0.7,
+      max_tokens: 1024,
       top_p: 1,
       frequency_penalty: 0,
-      presence_penalty: 0,
+      presence_penalty: 0.1,
     });
 
     // Extract the generated question
